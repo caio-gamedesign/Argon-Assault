@@ -1,29 +1,36 @@
 ﻿using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    [Tooltip("In ms^-1")] [SerializeField] float speed = 20f;
+    [Header("General")]
+    [Tooltip("In ms^-1")] [SerializeField] float controlSpeed = 20f;
     [Tooltip("In m")] [SerializeField] float xRange = 5f;
     [Tooltip("In m")] [SerializeField] float yRange = 3f;
 
+    [Header("Screen Position Based")]
     [SerializeField] float positionPitchFactor = -5f;
-    [SerializeField] float controlThrowPitchFactor = -30f;
-
     [SerializeField] float positionYawFactor = 4f;
+
+    [Header("Control Throw Based")]
+    [SerializeField] float controlThrowPitchFactor = -30f;
     [SerializeField] float controlThrowRollFactor = -20f;
 
     private float xThrow, yThrow;
+    bool isControlEnabled = true;
 
-    private void OnTriggerEnter(Collider other)
+    void OnPlayerDeath()
     {
-        print("Player Triggered " + other.transform.root.name);
+        print("Controller frozen");
     }
 
     private void Update()
     {
-        ProcessPosition();
-        ProcessRotation();
+        if (isControlEnabled)
+        {
+            ProcessPosition();
+            ProcessRotation();
+        }
     }
 
     private void ProcessRotation()
@@ -47,8 +54,8 @@ public class Player : MonoBehaviour
         xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
         yThrow = CrossPlatformInputManager.GetAxis("Vertical");
 
-        float clampedXPos = ClampedPos(transform.localPosition.x, xThrow, speed, xRange);
-        float clampedYPos = ClampedPos(transform.localPosition.y, yThrow, speed, yRange);
+        float clampedXPos = ClampedPos(transform.localPosition.x, xThrow, controlSpeed, xRange);
+        float clampedYPos = ClampedPos(transform.localPosition.y, yThrow, controlSpeed, yRange);
 
         transform.localPosition = new Vector3(clampedXPos, clampedYPos, transform.localPosition.z);
     }
@@ -60,7 +67,4 @@ public class Player : MonoBehaviour
 
         return Mathf.Clamp(position, -range, range);
     }
-
-
-
 }
