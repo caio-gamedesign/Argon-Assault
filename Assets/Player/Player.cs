@@ -15,6 +15,11 @@ public class Player : MonoBehaviour
 
     private float xThrow, yThrow;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        print("Player Triggered " + other.transform.root.name);
+    }
+
     private void Update()
     {
         ProcessPosition();
