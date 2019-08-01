@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
 
     void OnPlayerDeath()
     {
-        print("Controller frozen");
+        isControlEnabled = false;
     }
 
     private void Update()
