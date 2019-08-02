@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] GameObject[] guns;
 
+    [SerializeField] ParticleSystem[] particleSystems;
+
     private float xThrow, yThrow;
     bool isControlEnabled = true;
 
@@ -39,29 +41,16 @@ public class PlayerController : MonoBehaviour
 
     private void ProcessFiring()
     {
-        if (CrossPlatformInputManager.GetButton("Fire"))
-        {
-            ActivateGuns();
-        }
-        else
-        {
-            DeactivateGuns();
-        }
+        bool isActive = CrossPlatformInputManager.GetButton("Fire");
+        SetGunsActive(isActive);
     }
 
-    private void DeactivateGuns()
+    private void SetGunsActive(bool isActive)
     {
-        foreach (GameObject gun in guns)
+        foreach (ParticleSystem ps in particleSystems)
         {
-            gun.SetActive(false);
-        }
-    }
-
-    private void ActivateGuns()
-    {
-        foreach (GameObject gun in guns)
-        {
-            gun.SetActive(true);
+            var emission = ps.emission;
+            emission.enabled = isActive;
         }
     }
 
