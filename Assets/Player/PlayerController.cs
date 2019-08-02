@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour
@@ -16,6 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float controlThrowPitchFactor = -30f;
     [SerializeField] float controlThrowRollFactor = -20f;
 
+    [SerializeField] GameObject[] guns;
+
     private float xThrow, yThrow;
     bool isControlEnabled = true;
 
@@ -30,6 +33,35 @@ public class PlayerController : MonoBehaviour
         {
             ProcessPosition();
             ProcessRotation();
+            ProcessFiring();
+        }
+    }
+
+    private void ProcessFiring()
+    {
+        if (CrossPlatformInputManager.GetButton("Fire"))
+        {
+            ActivateGuns();
+        }
+        else
+        {
+            DeactivateGuns();
+        }
+    }
+
+    private void DeactivateGuns()
+    {
+        foreach (GameObject gun in guns)
+        {
+            gun.SetActive(false);
+        }
+    }
+
+    private void ActivateGuns()
+    {
+        foreach (GameObject gun in guns)
+        {
+            gun.SetActive(true);
         }
     }
 
