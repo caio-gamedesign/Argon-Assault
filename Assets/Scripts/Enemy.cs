@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     ScoreText scoreText;
 
     [SerializeField] GameObject deathFX;
+    [SerializeField] int healthPoints = 100;
+    [SerializeField] int maxHits = 3;
 
     private void Start()
     {
@@ -33,10 +35,24 @@ public class Enemy : MonoBehaviour
     {
         if (isAlive)
         {
-            scoreText.ScoreHit(scorePerHit);
-            isAlive = false;
-            Instantiate(deathFX, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            Hit();
         }
+    }
+
+    private void Hit()
+    {
+        scoreText.ScoreHit(scorePerHit);
+        maxHits--;
+        if(maxHits <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        isAlive = false;
+        Instantiate(deathFX, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }
