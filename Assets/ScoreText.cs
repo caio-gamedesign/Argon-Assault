@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class ScoreText : MonoBehaviour {
 
-    [SerializeField] int scorePerHit = 0;
-
     int score = 0;
     Text scoreText;
 
@@ -17,9 +15,9 @@ public class ScoreText : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	public void ScoreHit()
+	public void ScoreHit(int points)
     {
-        score += scorePerHit;
+        score += points;
         UpdateScoreText();
     }
 
