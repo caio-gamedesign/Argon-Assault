@@ -23,6 +23,7 @@ public class ScoreText : MonoBehaviour {
 
     private void UpdateScoreText()
     {
+        //Testing version control
         scoreText.text = score.ToString("D8");
     }
 }
